@@ -27,18 +27,18 @@ Flutter For Mobile
 In the pubspec.yaml of your flutter project, add the following dependency:
 ```yaml
 dependencies:
-  flutter_slidable: ^1.0.0
+  ffm: ^1.0.1
 ```
 In your library add the following import:
 ```dart
-import 'package:ffm/ff.dart';
+import 'package:ffm/ffm.dart';
 ```
 
 
 ## Getting started
 Example:
 ```dart
-import 'package:ffm/ff.dart';
+import 'package:ffm/ffm.dart';
 import 'home-page-logic.dart';
 
 class HomePage extends FPage<HomePageLogic> {
@@ -76,7 +76,7 @@ class HomePage extends FPage<HomePageLogic> {
 ```
 
 ```dart
-import 'package:ffm/ff.dart';
+import 'package:ffm/ffm.dart';
 import 'home-page.dart';
 import 'info-page.dart';
 
