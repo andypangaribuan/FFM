@@ -11,15 +11,15 @@ library ff;
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:ffm/src/enums.dart';
+import 'package:ffm/src/enum.dart';
 import 'package:ffm/src/ff.dart';
 import 'package:flutter/material.dart';
 
 import 'extensions.dart';
 
 part 'disposer.dart';
-part 'page-logic.dart';
-part 'page-object.dart';
+part 'page_logic.dart';
+part 'page_object.dart';
 
 abstract class FPage<T extends FPageLogic> extends StatefulWidget {
   final _po = _FPageObject<T>._();

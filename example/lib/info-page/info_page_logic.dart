@@ -6,7 +6,12 @@
  * licenses restricting copying, distribution and decompilation.
  */
 
-enum GetObjectType {
-  context,
-  page
+import 'package:ffm/ffm.dart';
+
+import 'info_page.dart';
+
+class InfoPageLogic extends FPageLogic<InfoPage> {
+  void onClickBack() {
+    pageBack(result: 1);
+  }
 }

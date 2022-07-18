@@ -6,8 +6,18 @@
  * licenses restricting copying, distribution and decompilation.
  */
 
-export 'src/enum.dart';
-export 'src/extensions.dart';
-export 'src/ff.dart';
-export 'src/page.dart';
-export 'src/pipe.dart';
+part of ff.pipe;
+
+class FPipeErrModel {
+  bool isError = false;
+  String? message;
+  Object? _object;
+
+  T value<T>() {
+    return _object as T;
+  }
+
+  void set(Object object) {
+    _object = object;
+  }
+}

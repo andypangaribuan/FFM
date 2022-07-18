@@ -9,8 +9,12 @@ Publish to pub.dev
 
 
 Flutter commands:
+- Analyze your code
+  $ fvm flutter analyze
 - Get all dependencies:
   $ fvm flutter pub get 
+- Doctor
+  $ fvm flutter doctor -v
 -->
 
 

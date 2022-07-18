@@ -45,9 +45,8 @@ abstract class FPageLogic<T> {
     ff.func.pageBack(context, result: result);
   }
 
-  // ignore: avoid_shadowing_type_parameters
-  Future<T?> pageOpen<T>(Widget page) async {
-    return ff.func.pageOpen(context, page);
+  Future<X> pageOpen<X>(Widget page, {FPageTransitionType? transitionType}) async {
+    return ff.func.pageOpen(context, _getPage(), page, transitionType: transitionType);
   }
 
   @protected
