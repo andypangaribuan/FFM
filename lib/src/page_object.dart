@@ -11,6 +11,7 @@ part of ff;
 class _FPageObject<T extends FPageLogic> {
   late T logic;
   final _getObjects = HashMap<GetObjectType, Object? Function()>();
+  _FPageState? _state;
 
   _FPageObject._();
 

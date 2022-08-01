@@ -45,12 +45,19 @@ abstract class FPageLogic<T> {
     ff.func.pageBack(context, result: result);
   }
 
-  Future<X> pageOpen<X>(Widget page, {FPageTransitionType? transitionType}) async {
-    return ff.func.pageOpen(context, _getPage(), page, transitionType: transitionType);
+  Future<X> pageOpen<X>(dynamic page, {FPageTransitionType? transitionType}) async {
+    Widget widget = Container();
+    if (page is Widget) {
+      widget = page;
+    } else if (page is FPage) {
+      widget = page.getWidget();
+    }
+
+    return ff.func.pageOpen<X>(context, _getPage()._state.widget, widget, transitionType: transitionType);
   }
 
   @protected
-  void pageOpenAndRemovePrevious(Widget page) {
+  void pageOpenAndRemovePrevious(dynamic page) {
     ff.func.pageOpenAndRemovePrevious(context, page);
   }
 

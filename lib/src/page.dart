@@ -21,28 +21,40 @@ part 'disposer.dart';
 part 'page_logic.dart';
 part 'page_object.dart';
 
-abstract class FPage<T extends FPageLogic> extends StatefulWidget {
+abstract class FPage<T extends FPageLogic> {
   final _po = _FPageObject<T>._();
 
   T get logic => _po.logic;
 
+  _FPageState get _state => _po._state!;
+
   BuildContext get context => logic.context;
 
-  FPage({Key? key}) : super(key: key);
+  Widget getWidget() {
+    if (_po._state == null) {
+      return _FYPage((state) {
+        _po._state = state;
+        return this;
+      });
+    }
 
-  @override
-  State<StatefulWidget> createState() => _FPageState();
+    return _po._state!.widget;
+  }
 
   /// called first
+  @protected
+  void initialize();
+
+  /// called second
   /// context not ready yet when this method called
   @protected
   void initState() {}
 
-  /// called second
+  /// called third
   @protected
   Widget buildLayout(BuildContext context);
 
-  /// called third
+  /// called fourth
   @protected
   void onLayoutLoaded() {}
 
@@ -56,10 +68,33 @@ abstract class FPage<T extends FPageLogic> extends StatefulWidget {
   void dispose() {}
 }
 
-class _FPageState extends State<FPage> {
-  FPage get page => widget;
+
+class _FYPage extends StatefulWidget {
+  final _holder = _FYPageHolder();
+
+  _FYPage(FPage Function(_FPageState state) pageStateExchange) {
+    _holder.pageStateExchange = pageStateExchange;
+  }
+
+  @override
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => _FPageState(_holder.pageStateExchange);
+}
+
+class _FYPageHolder {
+  late FPage Function(_FPageState state) pageStateExchange;
+}
+
+
+class _FPageState extends State<_FYPage> {
+  late FPage page;
 
   _FPageObject get _po => page._po;
+
+  _FPageState(FPage Function(_FPageState state) pageStateExchange) {
+    page = pageStateExchange(this);
+    page.initialize();
+  }
 
   @override
   void initState() {

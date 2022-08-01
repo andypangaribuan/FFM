@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'home_page_logic.dart';
 
 class HomePage extends FPage<HomePageLogic> {
-  HomePage({Key? key}) : super(key: key) {
+  @override
+  void initialize() {
     setLogic(HomePageLogic());
   }
 

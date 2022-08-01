@@ -10,6 +10,7 @@ library f_guide;
 
 import 'dart:developer' as developer;
 import 'dart:io' show Platform;
+import 'package:ffm/ffm.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:ffm/src/enum.dart';
@@ -79,8 +80,15 @@ class _Func {
     Navigator.pop(context, result);
   }
 
-  void pageOpenAndRemovePrevious(BuildContext context, Widget page) {
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => page), ModalRoute.withName(''));
+  void pageOpenAndRemovePrevious(BuildContext context, dynamic page) {
+    Widget widget = Container();
+    if (page is Widget) {
+      widget = page;
+    } else if (page is FPage) {
+      widget = page.getWidget();
+    }
+
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => widget), ModalRoute.withName(''));
   }
 }
 //endregion

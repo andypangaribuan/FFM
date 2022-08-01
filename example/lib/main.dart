@@ -10,11 +10,23 @@ import 'package:example/home-page/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const FApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class FApp extends StatefulWidget {
+  const FApp({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _FAppState();
+
+}
+
+class _FAppState extends State<FApp> {
+  HomePage? _homePage;
+  HomePage get homePage {
+    _homePage ??= HomePage();
+    return _homePage!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +35,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: homePage.getWidget(),
     );
   }
+
 }

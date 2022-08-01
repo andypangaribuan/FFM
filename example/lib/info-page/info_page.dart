@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'info_page_logic.dart';
 
 class InfoPage extends FPage<InfoPageLogic> {
-  InfoPage({Key? key}) : super(key: key) {
+  @override
+  void initialize() {
     setLogic(InfoPageLogic());
   }
 

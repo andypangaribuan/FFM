@@ -37,7 +37,7 @@ class HomePageLogic extends FPageLogic<HomePage> {
   }
 
   void onClickOpenInfoPage() async {
-    var value = await pageOpen<int?>(InfoPage());
+    var value = await pageOpen<int?>(InfoPage().getWidget());
     if (value == null) {
       ff.log(['value is null']);
     } else {
