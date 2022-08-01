@@ -15,6 +15,15 @@ Flutter commands:
   $ fvm flutter pub get 
 - Doctor
   $ fvm flutter doctor -v
+
+IntelliJ Shortcuts
+✦ opt + (↑ OR ↓)    ︎〉extend selection
+✦ ctrl + opt + I    ︎〉auto-indent lines
+✦ ctrl + shift + E  ︎〉next highlighted error (custom)
+✦ ctrl + tab        ︎〉switcher
+✦ cmd + .  ︎         〉collapse or expand block
+✦ ctrl + shift + -  ︎〉collapse all
+✦ ctrl + shift + +  ︎〉expand all
 -->
 
 
