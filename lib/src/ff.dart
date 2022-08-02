@@ -13,7 +13,6 @@ import 'dart:io' show Platform;
 import 'package:ffm/ffm.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:ffm/src/enum.dart';
 import 'package:ffm/src/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

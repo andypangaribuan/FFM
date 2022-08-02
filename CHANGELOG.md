@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.3
+### Modified
+* Allow public initialize for FDisposer
+
 ## 1.0.2
 ### Modified
 * FPage concept

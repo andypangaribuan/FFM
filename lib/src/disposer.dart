@@ -11,7 +11,7 @@ part of ff;
 class FDisposer {
   final _funcs = <void Function()>[];
 
-  FDisposer._();
+  FDisposer();
 
   void register(void Function() fn) {
     _funcs.add(fn);

@@ -12,7 +12,7 @@ abstract class FPageLogic<T> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool canPopPage = true;
 
-  final disposer = FDisposer._();
+  final disposer = FDisposer();
 
   late FPage Function() _getPage;
 
