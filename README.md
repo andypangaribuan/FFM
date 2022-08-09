@@ -12,7 +12,7 @@ Flutter commands:
 - Analyze your code
   $ fvm flutter analyze
 - Get all dependencies:
-  $ fvm flutter pub get 
+  $ fvm flutter pub get
 - Doctor
   $ fvm flutter doctor -v
 
@@ -28,24 +28,28 @@ IntelliJ Shortcuts
 
 
 # FFM
+
 Flutter For Mobile  
 * Split UI and logic, and provide connection to each other.
 * Easy state management with auto disposal.
 
 ## Install
+
 In the pubspec.yaml of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ffm: ^1.0.1
 ```
+
 In your library add the following import:
 ```dart
 import 'package:ffm/ffm.dart';
 ```
 
-
 ## Getting started
+
 Example:
+
 ```dart
 import 'package:ffm/ffm.dart';
 import 'home-page-logic.dart';
@@ -115,8 +119,8 @@ class HomePageLogic extends FPageLogic<HomePage> {
 }
 ```
 
-
 ## Contributions
+
 Feel free to contribute to this project.
 
 If you find a bug or want a feature, but don't know how to fix/implement it, please fill an [`issue`](https://github.com/andypangaribuan/FFM/issues).  
