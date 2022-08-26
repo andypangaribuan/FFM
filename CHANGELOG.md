@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.4
+### Added
+* add ff.func.waitNotNull to check async the value already not null or not.
+* add onBuildLayoutFirstCall to pageLogic
+
 ## 1.0.3
 ### Modified
 * Allow public initialize for FDisposer

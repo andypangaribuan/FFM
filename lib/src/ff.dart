@@ -89,6 +89,16 @@ class _Func {
 
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => widget), ModalRoute.withName(''));
   }
+
+  Future<T> waitNotNull<T>(T? Function() check, {int millis = 100}) async {
+    T? data = check.call();
+    while (data == null) {
+      await Future.delayed(Duration(milliseconds: millis));
+      data = check.call();
+    }
+
+    return data;
+  }
 }
 //endregion
 

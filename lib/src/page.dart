@@ -83,6 +83,7 @@ class _FYPage extends StatefulWidget {
 
 class _FYPageHolder {
   late FPage Function(_FPageState state) pageStateExchange;
+  bool calledOnBuildLayoutFirstCall = false;
 }
 
 
@@ -114,6 +115,10 @@ class _FPageState extends State<_FYPage> {
 
     return page.buildLayout(context).also((_) {
       page.logic.onBuildLayout();
+      if (!widget._holder.calledOnBuildLayoutFirstCall) {
+        widget._holder.calledOnBuildLayoutFirstCall = true;
+        page.logic.onBuildLayoutFirstCall();
+      }
     });
   }
 

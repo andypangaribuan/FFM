@@ -37,6 +37,10 @@ abstract class FPageLogic<T> {
   @protected
   void onBuildLayout() {}
 
+  /// called second - ext: only called once
+  @protected
+  void onBuildLayoutFirstCall() {}
+
   /// called third
   @protected
   void onLayoutLoaded() {}
