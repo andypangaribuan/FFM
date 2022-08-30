@@ -7,7 +7,6 @@ Publish to pub.dev
 4. Publish to pub.dev
    $ fvm flutter pub publish
 
-
 Flutter commands:
 - Analyze your code
   $ fvm flutter analyze
@@ -26,22 +25,24 @@ IntelliJ Shortcuts
 ✦ ctrl + shift + +  ︎〉expand all
 -->
 
-
 # FFM
 
-Flutter For Mobile  
+Flutter For Mobile
+
 * Split UI and logic, and provide connection to each other.
 * Easy state management with auto disposal.
 
 ## Install
 
 In the pubspec.yaml of your flutter project, add the following dependency:
+
 ```yaml
 dependencies:
   ffm: ^1.0.1
 ```
 
 In your library add the following import:
+
 ```dart
 import 'package:ffm/ffm.dart';
 ```

@@ -2,17 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.5
+### Modified
+
+* Sink and textEditController listener for broadcasting to all subscriber on FPipe
+* FPipe prevent send multiple event to all subscriber with same value
+
 ## 1.0.4
 ### Added
+
 * add ff.func.waitNotNull to check async the value already not null or not.
 * add onBuildLayoutFirstCall to pageLogic
 
 ## 1.0.3
 ### Modified
+
 * Allow public initialize for FDisposer
 
 ## 1.0.2
 ### Modified
+
 * FPage concept
 
 ## 1.0.1
@@ -24,6 +33,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 * FPipe: onUpdate follow the T generic type
+
 
 ## 1.0.0
 ### Added

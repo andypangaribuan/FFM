@@ -21,6 +21,7 @@ class FPipe<T> {
   final _pipe = BehaviorSubject<T>();
   BehaviorSubject<FPipeErrModel>? _errPipe;
 
+  late T _lastValue;
   T get value {
     if (textEditingController != null) {
       return textEditingController!.text as T;
@@ -35,6 +36,8 @@ class FPipe<T> {
     return _pipe.value;
   }
 
+  late T _lastSubscribeValue;
+
   FPipeErrModel get errValue {
     return _errPipe!.value;
   }
@@ -46,23 +49,29 @@ class FPipe<T> {
   TextEditingController? textEditingController;
   StreamSubscription? _eventSubscription;
 
-  FPipe(
-      {required T initValue,
-      required FDisposer disposer,
-      bool withTextEditingController = false,
-      bool withErrPipe = false}) {
+  FPipe({required T initValue, required FDisposer disposer, bool withTextEditingController = false, bool withErrPipe = false}) {
     disposer.register(dispose);
 
+    _lastValue = initValue;
+    _lastSubscribeValue = initValue;
     if (initValue != null) {
       update(initValue);
 
       if (initValue is String && withTextEditingController) {
-        textEditingController = TextEditingController(text: initValue);
+        textEditingController = TextEditingController(text: initValue)
+          ..addListener(_textEditingControllerListener);
       }
     }
 
     if (withErrPipe) {
       _errPipe = BehaviorSubject<FPipeErrModel>()..sink.add(FPipeErrModel());
+    }
+  }
+
+  void _safePipeSinkAdd(T value) {
+    if (_lastValue != value) {
+      _lastValue = value;
+      _pipe.sink.add(value);
     }
   }
 
@@ -93,13 +102,14 @@ class FPipe<T> {
 
     if (textEditingController == null) {
       _pipe.sink.add(value);
-    } else if (ff.func.isTypeOf<T, String>()) {
-      var text = value as String;
-      textEditingController!
-        ..text = text
-        ..selection = TextSelection.collapsed(offset: text.length);
+      return;
+    }
 
-      _pipe.sink.add(value);
+    if (ff.func.isTypeOf<T, String>()) {
+      final text = value as String;
+      textEditingController!
+      ..text = text
+      ..selection = TextSelection.collapsed(offset: text.length);
     }
   }
 
@@ -137,19 +147,18 @@ class FPipe<T> {
 
     _subscriptionListeners.add(listener);
     subscriptionSkippedCount = skippedCount < 0 ? 0 : skippedCount;
-
     _eventSubscription ??= _pipe.listen(_subscriptionEvent);
-    if (textEditingController != null) {
-      textEditingController?.addListener(() {
-        _subscriptionEvent(value);
-      });
-    }
   }
 
   void _subscriptionEvent(T value) {
     if (_disposed) {
       return;
     }
+
+    if (_lastSubscribeValue == value) {
+      return;
+    }
+    _lastSubscribeValue = value;
 
     if (subscriptionSkippedCount > 0) {
       subscriptionSkippedCount--;
@@ -158,6 +167,10 @@ class FPipe<T> {
         listener(value);
       }
     }
+  }
+
+  void _textEditingControllerListener() {
+    _safePipeSinkAdd(value);
   }
 
   void callSubscriber() {
