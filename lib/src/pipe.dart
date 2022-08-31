@@ -49,7 +49,11 @@ class FPipe<T> {
   TextEditingController? textEditingController;
   StreamSubscription? _eventSubscription;
 
-  FPipe({required T initValue, required FDisposer disposer, bool withTextEditingController = false, bool withErrPipe = false}) {
+  FPipe(
+      {required T initValue,
+      required FDisposer disposer,
+      bool withTextEditingController = false,
+      bool withErrPipe = false}) {
     disposer.register(dispose);
 
     _lastValue = initValue;
@@ -64,7 +68,8 @@ class FPipe<T> {
     }
 
     if (withErrPipe) {
-      _errPipe = BehaviorSubject<FPipeErrModel>()..sink.add(FPipeErrModel());
+      final model = FPipeErrModel._((value) => errUpdate(value));
+      _errPipe = BehaviorSubject<FPipeErrModel>()..sink.add(model);
     }
   }
 
@@ -108,8 +113,8 @@ class FPipe<T> {
     if (ff.func.isTypeOf<T, String>()) {
       final text = value as String;
       textEditingController!
-      ..text = text
-      ..selection = TextSelection.collapsed(offset: text.length);
+        ..text = text
+        ..selection = TextSelection.collapsed(offset: text.length);
     }
   }
 
@@ -140,7 +145,8 @@ class FPipe<T> {
     }
   }
 
-  void subscribe({required void Function(T val) listener, int skippedCount = 0}) {
+  void subscribe(
+      {required void Function(T val) listener, int skippedCount = 0}) {
     if (_disposed) {
       return;
     }

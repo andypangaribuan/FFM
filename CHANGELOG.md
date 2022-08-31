@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.7
+
+### Modified
+
+* FPipe implement direct update on error value to the pipe
+
+## 1.0.6
+### Added
+
+* FTimer: support start, pause, reset and resetAndStart
+
 ## 1.0.5
 ### Modified
 

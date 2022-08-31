@@ -11,3 +11,4 @@ export 'src/extensions.dart';
 export 'src/ff.dart';
 export 'src/page.dart';
 export 'src/pipe.dart';
+export 'src/timer.dart';

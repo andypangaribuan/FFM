@@ -12,12 +12,21 @@ class FPipeErrModel {
   bool isError = false;
   String? message;
   Object? _object;
+  final Function(FPipeErrModel value) _doUpdate;
 
-  T value<T>() {
+  FPipeErrModel._(this._doUpdate);
+
+  T object<T>() {
     return _object as T;
   }
 
-  void set(Object object) {
+  void setError(String message, {Object? object}) {
+    isError = true;
+    this.message = message;
     _object = object;
+  }
+
+  void update() {
+    _doUpdate(this);
   }
 }
