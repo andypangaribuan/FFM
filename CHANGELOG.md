@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 1.0.9
+### Added
+* FSimpleButton widget as alternative to material button
+
 ## 1.0.8
 ### Added
 * FSizeMeasure widget to measure widget size

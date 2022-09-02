@@ -38,7 +38,7 @@ In the pubspec.yaml of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  ffm: ^1.0.1
+  ffm: ^1.0.9
 ```
 
 In your library add the following import:
