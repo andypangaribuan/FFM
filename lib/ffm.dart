@@ -12,3 +12,5 @@ export 'src/ff.dart';
 export 'src/page.dart';
 export 'src/pipe.dart';
 export 'src/timer.dart';
+
+export 'widget/size_measure.dart';

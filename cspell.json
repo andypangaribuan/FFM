@@ -1,0 +1,14 @@
+// Extension: Code Spell Checker
+{
+    "version": "0.2",
+    "language": "en",
+    "words": [
+        "funcs",
+        "decompilation",
+        "intelli",
+        "pubspec",
+        "rxdart",
+        "fullscreen",
+        "cupertino"
+    ]
+}

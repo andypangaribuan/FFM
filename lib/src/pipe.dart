@@ -90,7 +90,7 @@ class FPipe<T> {
           );
   }
 
-  Widget onErrUpdate(Widget Function(FPipeErrModel val) listener) {
+  Widget onErrUpdate(Widget Function(FPipeErrModel err) listener) {
     return _disposed
         ? Container()
         : StreamBuilder<FPipeErrModel>(
