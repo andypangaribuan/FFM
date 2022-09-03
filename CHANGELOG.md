@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 1.0.10
+### Added
+* FHorizontalSizeMeasurer for measuring the horizontal widget such as row.
+
 ## 1.0.9
 ### Added
 * FSimpleButton widget as alternative to material button

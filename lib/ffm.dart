@@ -13,4 +13,5 @@ export 'src/page.dart';
 export 'src/pipe.dart';
 export 'src/timer.dart';
 
+export 'widget/horizontal_size_measurer.dart';
 export 'widget/size_measure.dart';

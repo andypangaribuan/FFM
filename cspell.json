@@ -9,6 +9,8 @@
         "pubspec",
         "rxdart",
         "fullscreen",
-        "cupertino"
+        "cupertino",
+        "endregion",
+        "millis"
     ]
 }

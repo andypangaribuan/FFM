@@ -20,6 +20,7 @@ part 'pipe_model.dart';
 class FPipe<T> {
   final _pipe = BehaviorSubject<T>();
   BehaviorSubject<FPipeErrModel>? _errPipe;
+  dynamic holder;
 
   late T _lastValue;
   T get value {
@@ -62,8 +63,7 @@ class FPipe<T> {
       update(initValue);
 
       if (initValue is String && withTextEditingController) {
-        textEditingController = TextEditingController(text: initValue)
-          ..addListener(_textEditingControllerListener);
+        textEditingController = TextEditingController(text: initValue)..addListener(_textEditingControllerListener);
       }
     }
 
@@ -145,8 +145,7 @@ class FPipe<T> {
     }
   }
 
-  void subscribe(
-      {required void Function(T val) listener, int skippedCount = 0}) {
+  void subscribe({required void Function(T val) listener, int skippedCount = 0}) {
     if (_disposed) {
       return;
     }
