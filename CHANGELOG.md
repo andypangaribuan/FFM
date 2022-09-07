@@ -1,6 +1,24 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 1.0.12
+### Fixed
+* Trigger onChange when updateRenderObject to handle performLayout dynamically on FHorizontalSizeMeasurer.
+### Added
+* FSimpleVisibility for visibility: visible, invisible and gone.
+* Splash color, highlight color, width, heigh, margin, visibility, and shape to FSimpleButton.
+* FPageTransitionHolder to hold the transition page, so pageOpen can have ability to perform transition injection for each variable used by FPageTransition.
+* Integrate FPageTransitionHolder to FPageTransition.
+* randomChar to ff.func for generating the ids.
+### Modified
+* Change subscription listener type from array to map for id support, this means subscription listener can be remove from queue using disposer when the pipe used on global app.
+
+## 1.0.11
+### Fixed
+* FSimpleButton padding and margin position.
+### Added
+* FSimpleButton highlightColor.
+
 ## 1.0.10
 ### Added
 * FHorizontalSizeMeasurer for measuring the horizontal widget such as row.

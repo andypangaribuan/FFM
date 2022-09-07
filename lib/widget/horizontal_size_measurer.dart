@@ -16,6 +16,7 @@ import 'size_measure.dart';
 class FHorizontalSizeMeasurer {
   final FPipe<double> pipe;
   final double widgetHeight;
+  final bool visible;
 
   set _isHaveSize(bool value) {
     pipe.holder = value;
@@ -24,21 +25,27 @@ class FHorizontalSizeMeasurer {
   FHorizontalSizeMeasurer({
     required this.pipe,
     this.widgetHeight = 1,
+    this.visible = false,
   });
 
   SingleChildRenderObjectWidget items(void Function(FHorizontalSizeMeasurerItems e) fn) {
     _isHaveSize = false;
+    pipe.update(-1);
+    
     final e = FHorizontalSizeMeasurerItems._();
     fn(e);
 
     Widget getWidget(List<dynamic> ls) {
-      bool isRow = ls[0];
-      Widget widget = ls[1];
-      if (isRow) {
-        widget = Row(mainAxisSize: MainAxisSize.min, children: [widget]);
-      }
+      Widget widget = ls[0];
+      bool isFittedBox = ls[1];
 
-      return SizedBox(height: widgetHeight, child: widget);
+      if (!visible) {
+        widget = SizedBox(height: widgetHeight, child: widget);
+      }
+      if (isFittedBox) {
+        widget = FittedBox(child: widget);
+      }
+      return widget;
     }
 
     // Measure size all widget with height = 1
@@ -50,7 +57,7 @@ class FHorizontalSizeMeasurer {
           pipe.update(size.height);
         },
         child: Visibility(
-          visible: false,
+          visible: visible,
           maintainSize: true,
           maintainAnimation: true,
           maintainState: true,
@@ -68,7 +75,7 @@ class FHorizontalSizeMeasurerItems {
 
   FHorizontalSizeMeasurerItems._();
 
-  void add({required bool isRow, required Widget widget}) {
-    _items.add([isRow, widget]);
+  void add({required Widget widget, bool fittedBox = false}) {
+    _items.add([widget, fittedBox]);
   }
 }

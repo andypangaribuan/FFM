@@ -20,18 +20,36 @@ class FSizeMeasure extends SingleChildRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return _FSizeMeasureRenderObject(onChange);
+    return _FSizeMeasureRenderObject(onChange, () => context);
+  }
+
+  @override
+  void updateRenderObject(BuildContext context, covariant RenderObject renderObject) {
+    super.updateRenderObject(context, renderObject);
+    if (renderObject is _FSizeMeasureRenderObject) {
+      if (renderObject.hasSize) {
+        double screenWidth = MediaQuery.of(context).size.width;
+        if (renderObject.screenWidth == screenWidth) {
+          onChange(renderObject.size);
+        }
+        renderObject.screenWidth = screenWidth;
+      }
+    }
   }
 }
 
 class _FSizeMeasureRenderObject extends RenderProxyBox {
   Size? oldSize;
+  double? screenWidth;
   final void Function(Size size) onChange;
+  final BuildContext Function() context;
 
-  _FSizeMeasureRenderObject(this.onChange);
+  _FSizeMeasureRenderObject(this.onChange, this.context);
 
   @override
   void performLayout() {
+    screenWidth = MediaQuery.of(context()).size.width;
+
     onChange(const Size(-1, -1));
     super.performLayout();
 

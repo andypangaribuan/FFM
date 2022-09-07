@@ -6,56 +6,74 @@
  * licenses restricting copying, distribution and decompilation.
  */
 
+import 'package:ffm/enums/e_visibility.dart';
 import 'package:flutter/material.dart';
+
+import 'simple_visibility.dart';
 
 class FSimpleButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? splashColor;
+  final Color? highlightColor;
   final double elevation;
+  final double? width;
+  final double? height;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
+  final EVisibility visibility;
   final Widget? child;
   final VoidCallback? onTap;
 
-  /// Rounded: use CircleBorder()
-  /// Rounded Corner: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-  final ShapeBorder? shapeBorder;
+  /// Rounded: const CircleBorder()
+  /// Rounded Corner:
+  ///   RoundedRectangleBorder(
+  ///     borderRadius: BorderRadius.circular(10),
+  ///     side: const BorderSide(width: 1, color: Colors.red),
+  ///   )
+  final ShapeBorder? shape;
 
   const FSimpleButton({
     Key? key,
     this.backgroundColor = Colors.transparent,
-    this.splashColor = Colors.white,
+    this.splashColor,
+    this.highlightColor,
     this.elevation = 0,
-    this.margin,
+    this.width,
+    this.height,
+    this.margin = EdgeInsets.zero,
     this.padding,
     this.child,
     this.onTap,
-    this.shapeBorder,
+    this.visibility = EVisibility.visible,
+    this.shape,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Widget? childView = child;
-    if (margin != null || padding != null) {
-      childView = Container(
-        margin: margin,
-        padding: padding,
-        child: child,
-      );
+    final splashColor = this.splashColor ?? Colors.white.withOpacity(0.75);
+    Widget? child = this.child;
+    if (child != null && padding != null) {
+      child = Padding(padding: padding!, child: child);
+    }
+    if (child != null && (width != null || height != null)) {
+      child = SizedBox(width: width, height: height, child: child);
     }
 
-    Widget view = Card(
-      shape: shapeBorder,
-      color: backgroundColor,
-      elevation: elevation,
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        splashColor: splashColor,
-        child: childView,
+    return FSimpleVisibility(
+      visibility: visibility,
+      child: Card(
+        shape: shape,
+        color: backgroundColor,
+        elevation: elevation,
+        margin: margin,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          splashColor: splashColor,
+          highlightColor: highlightColor,
+          child: child,
+        ),
       ),
     );
-
-    return view;
   }
 }

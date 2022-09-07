@@ -10,10 +10,11 @@ library f_guide;
 
 import 'dart:developer' as developer;
 import 'dart:io' show Platform;
+import 'dart:math';
 import 'package:ffm/ffm.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:ffm/src/page_transition.dart';
+// import 'package:ffm/src/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -26,7 +27,7 @@ class _FF {
 
   final func = _Func._();
   final time = _Time._();
-
+  final cast = _Cast._();
 
   /*
   * install "grep console" plugin for android studio or intellij ide
@@ -43,7 +44,6 @@ class _FF {
 
   void print(Object? object) => _logger.printLog(object);
 }
-
 
 var __osPlatform = OSPlatform.nil;
 OSPlatform get _osPlatform {
@@ -64,15 +64,32 @@ class _IsInstanceTypeOf<T> {}
 class _Func {
   _Func._();
 
+  static const _chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  final _rnd = Random();
+
+  String randomChar(int length) {
+    return String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  }
+
   bool isTypeOf<ThisType, OfType>() => _IsInstanceTypeOf<ThisType>() is _IsInstanceTypeOf<OfType>;
 
   bool isGenericTypeNullable<T>() => null is T;
 
-  Future<T> pageOpen<T>(BuildContext context, Widget currentPage, page, {FPageTransitionType? transitionType}) async {
+  Future<T> pageOpen<T>(BuildContext context, Widget currentPage, page,
+      {FPageTransitionType? transitionType,
+      bool disableAnimation = false,
+      void Function(FPageTransitionHolder holder)? getTransitionHolder}) async {
     var isIOS = _osPlatform == OSPlatform.ios;
-    var type = transitionType ?? FPageTransitionType.rightToLeft;
-    var val = await Navigator.push(context, FPageTransition(type: type, childCurrent: currentPage, child: page, isIos: isIOS));
-    return val as T;
+    final type = transitionType ?? FPageTransitionType.rightToLeft;
+    dynamic response;
+    if (disableAnimation && transitionType == null) {
+      response = await Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    } else {
+      final pageTransition = FPageTransition(type: type, childCurrent: currentPage, child: page, isIos: isIOS);
+      getTransitionHolder?.call(pageTransition.holder);
+      response = await Navigator.push(context, pageTransition);
+    }
+    return response as T;
   }
 
   void pageBack(BuildContext context, {Object? result}) {
@@ -102,15 +119,12 @@ class _Func {
 }
 //endregion
 
-
-
 //region LOGGER
 class _Logger {
   _Logger._();
 
   static final _deviceStackTraceRegex = RegExp(r'#[0-9]+[\s]+(.+) \(([^\s]+)\)');
   static final _webStackTraceRegex = RegExp(r'^((packages|dart-sdk)\/[^\s]+\/)');
-
 
   void log(List<String> messages) => developer.log(_getLogMessage(messages));
 
@@ -119,7 +133,6 @@ class _Logger {
       print(object);
     }
   }
-
 
   String _getLogMessage(List<String> messages) {
     int maxLength = 0;
@@ -145,18 +158,15 @@ class _Logger {
     }
     maxLength += 3;
 
-
     // characters: https://en.wikipedia.org/wiki/List_of_Unicode_characters
     var log = "";
-    for (int i=0; i<arr.length; i++) {
+    for (int i = 0; i < arr.length; i++) {
       if (i == 0) {
         var ch = "${_addChar("${arr[i]} ", "─", maxLength - 1)}┐";
         log += ch.trim();
-      }
-      else if (arr[i].contains("│ ▶ ")) {
+      } else if (arr[i].contains("│ ▶ ")) {
         log += "${_addChar("\n${arr[i]} ", " ", maxLength)}│";
-      }
-      else {
+      } else {
         final ch = arr[i];
         final chs = ch.split("\n");
         for (var c in chs) {
@@ -228,11 +238,8 @@ class _Logger {
     var v2 = match.group(1)?.startsWith('dart-sdk/lib') ?? false;
     return v1 || v2;
   }
-
 }
 //endregion
-
-
 
 //region TIME
 class _Time {
@@ -246,23 +253,18 @@ class _Time {
   final millis = _TimeUtil().._format = "yyyy-MM-dd HH:mm:ss.SSS";
   final micros = _TimeUtil().._format = "yyyy-MM-dd HH:mm:ss.SSSSSS";
 
-
   DateTime get now => DateTime.now();
   DateTime get nowUtc => DateTime.parse(DateTime.now().toUtc().toString().replaceAll("Z", "").replaceAll("z", ""));
 
-
   String toStr(String format, DateTime dt) => _util._toStr(format, dt);
-
 }
 
-
 class _TimeUtil {
-
   static final mapDateFormat = <String, DateFormat>{};
   late String _format;
 
-
-  DateTime? toTime(String? dt) => dt == null ? null : DateTime.parse(dt.replaceAll("T", " ").replaceAll("Z", "").replaceAll("z", ""));
+  DateTime? toTime(String? dt) =>
+      dt == null ? null : DateTime.parse(dt.replaceAll("T", " ").replaceAll("Z", "").replaceAll("z", ""));
 
   String? toStr(DateTime? dt) => dt == null ? null : _toStr(_format, dt);
 
@@ -302,8 +304,8 @@ class _TimeUtil {
     final fs = format.split(".");
     if (fs.length == 2) {
       final f = fs[1];
-      for (int i=0; i<f.length; i++) {
-        final ch = f.substring(i, i+1);
+      for (int i = 0; i < f.length; i++) {
+        final ch = f.substring(i, i + 1);
         if (ch == "S") {
           msCount++;
         }
@@ -312,7 +314,40 @@ class _TimeUtil {
 
     return msCount;
   }
-
 }
 //endregion TIME
 
+//region CAST
+class _Cast {
+  _Cast._();
+
+  double? optDouble(dynamic obj, {double? ifNullValue}) {
+    if (obj == null) {
+      if (ifNullValue != null) {
+        return ifNullValue;
+      }
+      return null;
+    }
+
+    if (obj is double) {
+      return obj;
+    }
+    if (obj is int) {
+      return obj.toDouble();
+    }
+    if (obj is String) {
+      String val = obj;
+      if (val.isEmpty) {
+        if (ifNullValue != null) {
+          return ifNullValue;
+        }
+        return null;
+      }
+
+      return double.parse(val);
+    }
+
+    return null;
+  }
+}
+//endregion CAST

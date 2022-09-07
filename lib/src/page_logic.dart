@@ -13,6 +13,7 @@ abstract class FPageLogic<T> {
   bool canPopPage = true;
 
   final disposer = FDisposer();
+  final holder = <String, dynamic>{};
 
   late FPage Function() _getPage;
 
@@ -49,7 +50,7 @@ abstract class FPageLogic<T> {
     ff.func.pageBack(context, result: result);
   }
 
-  Future<X> pageOpen<X>(dynamic page, {FPageTransitionType? transitionType}) async {
+  Future<X> pageOpen<X>(dynamic page, {FPageTransitionType? transitionType, void Function(FPageTransitionHolder holder)? getTransitionHolder}) async {
     Widget widget = Container();
     if (page is Widget) {
       widget = page;
@@ -57,7 +58,7 @@ abstract class FPageLogic<T> {
       widget = page.getWidget();
     }
 
-    return ff.func.pageOpen<X>(context, _getPage()._state.widget, widget, transitionType: transitionType);
+    return ff.func.pageOpen<X>(context, _getPage()._state.widget, widget, transitionType: transitionType, getTransitionHolder: getTransitionHolder);
   }
 
   @protected

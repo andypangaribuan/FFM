@@ -13,13 +13,13 @@ class FDisposer {
 
   FDisposer();
 
-  void register(void Function() fn) {
-    _funcs.add(fn);
+  void register(void Function() dispose) {
+    _funcs.add(dispose);
   }
 
   void _dispose() {
-    for (var fn in _funcs) {
-      fn();
+    for (var dispose in _funcs) {
+      dispose();
     }
     _funcs.clear();
   }
