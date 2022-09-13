@@ -116,6 +116,33 @@ class _Func {
 
     return data;
   }
+
+  /// pipe must have withErrPipe
+  void subscribeValidationLapse<T>(
+      {required List<FPipe<T>> pipes,
+      required String? Function(T val) validation,
+      bool notifyWhenValidated = false,
+      Duration lapse = const Duration(milliseconds: 2500)}) {
+    for (var pipe in pipes) {
+      final timer = FTimer(lapse, () {
+        final err = validation(pipe.value);
+        if (err != null && err.isNotEmpty) {
+          pipe.errValue
+            ..setError(err)
+            ..update();
+        } else if (notifyWhenValidated) {
+          pipe.errValue.update();
+        }
+      });
+
+      pipe.subscribe(listener: (val) {
+        if (pipe.errValue.isError) {
+          pipe.errUpdate(pipe.errValue..isError = false);
+        }
+        timer.resetAndStart();
+      });
+    }
+  }
 }
 //endregion
 

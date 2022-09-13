@@ -11,6 +11,7 @@ library ff.pipe;
 import 'dart:async';
 
 import 'package:ffm/ffm.dart';
+import 'package:ffm/stream-builder/stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -19,7 +20,9 @@ part 'pipe_model.dart';
 class FPipe<T> {
   final _pipe = BehaviorSubject<T>();
   BehaviorSubject<FPipeErrModel>? _errPipe;
-  dynamic holder;
+
+  /// dynamic holder
+  final holder = <String, dynamic>{};
 
   late T _lastValue;
   T get value {
@@ -43,7 +46,7 @@ class FPipe<T> {
   }
 
   final _subscriptionListeners = <String, void Function(T val)>{};
-  var subscriptionSkippedCount = 0;
+  var skipSubscription = 0;
   var _disposed = false;
 
   TextEditingController? textEditingController;
@@ -89,13 +92,23 @@ class FPipe<T> {
           );
   }
 
-  Widget onErrUpdate(Widget Function(FPipeErrModel err) listener) {
+  Widget onErrUpdate(Widget Function(T val, FPipeErrModel err) listener) {
     return _disposed
         ? Container()
         : StreamBuilder<FPipeErrModel>(
             stream: _errPipe!.stream,
             initialData: _errPipe!.value,
-            builder: (context, snap) => listener(snap.data!),
+            builder: (context, snap) => listener(value, snap.data!),
+          );
+  }
+
+  Widget onUpdateWithErrUpdate(Widget Function(T val, FPipeErrModel err) listener) {
+    return _disposed
+        ? Container()
+        : StreamBuilder2<T, FPipeErrModel>(
+            streams: StreamTuple2(_pipe.stream, _errPipe!.stream),
+            initialData: StreamInitialDataTuple2(_pipe.value, errValue),
+            builder: (context, snap1, snap2) => listener(snap1.data as T, snap2.data!),
           );
   }
 
@@ -143,7 +156,7 @@ class FPipe<T> {
     final id = _generateId();
     _subscriptionListeners[id] = listener;
     disposer?.register(() => _subscriptionListeners.remove(id));
-    subscriptionSkippedCount = skippedCount < 0 ? 0 : skippedCount;
+    skipSubscription = skippedCount < 0 ? 0 : skippedCount;
     _eventSubscription ??= _pipe.listen(_subscriptionEvent);
   }
 
@@ -157,8 +170,8 @@ class FPipe<T> {
     }
     _lastSubscribeValue = value;
 
-    if (subscriptionSkippedCount > 0) {
-      subscriptionSkippedCount--;
+    if (skipSubscription > 0) {
+      skipSubscription--;
     } else {
       for (var listener in _subscriptionListeners.values) {
         listener(value);

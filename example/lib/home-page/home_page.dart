@@ -40,7 +40,7 @@ class HomePage extends FPage<HomePageLogic> {
               child: const Text('Open Info Page'),
             ),
             divider,
-            logic.textPipe.onErrUpdate((err) {
+            logic.textPipe.onErrUpdate((_, err) {
               return TextFormField(
                 controller: logic.textPipe.textEditingController,
                 decoration: InputDecoration(

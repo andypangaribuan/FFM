@@ -1,6 +1,20 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 1.0.13
+### Fixed
+* Example project implementation of FPipe.
+### Added
+* ff.func.subscribeValidationLapse<T> to implement lapse action when pipe subscribe.
+* Holder on pipe using Map.
+* onUpdateWithErrUpdate on pipe to easier implementation when want to get update the data end error.
+* Implement softUpdate on FPipeErrModel.
+* Multiple stream builder to support onUpdateWithErrUpdate on FPipe.
+* FColumnExpandedScroll widget.
+* Change implementation of holder on pipe to FHorizontalSizeMeasurer.
+### Modified
+* remove protected on pageOpenAndRemovePrevious and dismissKeyboard on FPageLogic.
+
 ## 1.0.12
 ### Fixed
 * Trigger onChange when updateRenderObject to handle performLayout dynamically on FHorizontalSizeMeasurer.

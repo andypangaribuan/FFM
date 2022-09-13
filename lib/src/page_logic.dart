@@ -61,12 +61,12 @@ abstract class FPageLogic<T> {
     return ff.func.pageOpen<X>(context, _getPage()._state.widget, widget, transitionType: transitionType, getTransitionHolder: getTransitionHolder);
   }
 
-  @protected
+  // @protected
   void pageOpenAndRemovePrevious(dynamic page) {
     ff.func.pageOpenAndRemovePrevious(context, page);
   }
 
-  @protected
+  // @protected
   void dismissKeyboard() => context.dismissKeyboard();
 
   @protected

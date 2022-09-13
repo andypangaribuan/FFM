@@ -10,9 +10,12 @@ part of ff.pipe;
 
 class FPipeErrModel {
   bool isError = false;
+  bool get isNotError => !isError;
   String? message;
   Object? _object;
   final Function(FPipeErrModel value) _doUpdate;
+
+  FPipeErrModel? _lastModel;
 
   FPipeErrModel._(this._doUpdate);
 
@@ -27,6 +30,14 @@ class FPipeErrModel {
   }
 
   void update() {
+    _doUpdate(this);
+  }
+
+  void softUpdate() {
+    if (_lastModel?.isError == isError && _lastModel?.message == message && _lastModel?._object == _object) {
+      return;
+    }
+    _lastModel = this;
     _doUpdate(this);
   }
 }

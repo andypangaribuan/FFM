@@ -14,12 +14,14 @@ import 'size_measure.dart';
 /// FPipe must be persistent (initialize from FPageLogic)
 /// FPipe.holder used to save value "isHaveSize"
 class FHorizontalSizeMeasurer {
+  static const holderKey = 'f-horizontal-size-measurer';
+
   final FPipe<double> pipe;
   final double widgetHeight;
   final bool visible;
 
   set _isHaveSize(bool value) {
-    pipe.holder = value;
+    pipe.holder[holderKey] = value;
   }
 
   FHorizontalSizeMeasurer({
@@ -31,7 +33,7 @@ class FHorizontalSizeMeasurer {
   SingleChildRenderObjectWidget items(void Function(FHorizontalSizeMeasurerItems e) fn) {
     _isHaveSize = false;
     pipe.update(-1);
-    
+
     final e = FHorizontalSizeMeasurerItems._();
     fn(e);
 
