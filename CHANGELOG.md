@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 1.0.14
+### Added
+* ff.crypto.aesECBEncrypt for encryption using aes-ecb
+
 ## 1.0.13
 ### Fixed
 * Example project implementation of FPipe.

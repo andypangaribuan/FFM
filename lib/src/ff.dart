@@ -8,15 +8,24 @@
 
 library f_guide;
 
+import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:io' show Platform;
 import 'dart:math';
+import 'dart:typed_data';
 import 'package:ffm/ffm.dart';
 import 'package:flutter/foundation.dart';
 
 // import 'package:ffm/src/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pointycastle/api.dart';
+import 'package:pointycastle/block/aes.dart';
+import 'package:pointycastle/block/modes/ecb.dart';
+import 'package:pointycastle/padded_block_cipher/padded_block_cipher_impl.dart';
+import 'package:pointycastle/paddings/pkcs7.dart';
+
+part 'func/crypto.dart';
 
 final ff = _FF._();
 
@@ -25,6 +34,7 @@ class _FF {
 
   final _logger = _Logger._();
 
+  final crypto = _Crypto._();
   final func = _Func._();
   final time = _Time._();
   final cast = _Cast._();
@@ -57,6 +67,7 @@ OSPlatform get _osPlatform {
   }
   return __osPlatform;
 }
+
 
 //region Func
 class _IsInstanceTypeOf<T> {}
