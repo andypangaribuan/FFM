@@ -13,6 +13,7 @@ import 'dart:async';
 import 'package:ffm/ffm.dart';
 import 'package:ffm/stream-builder/stream_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/streams.dart';
 import 'package:rxdart/subjects.dart';
 
 part 'pipe_model.dart';
@@ -23,6 +24,10 @@ class FPipe<T> {
 
   /// dynamic holder
   final holder = <String, dynamic>{};
+
+  ValueStream<T> get stream {
+    return _pipe.stream;
+  }
 
   late T _lastValue;
   T get value {

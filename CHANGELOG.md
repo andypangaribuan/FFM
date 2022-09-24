@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 1.0.15
+### Added
+* add pipe.onUpdate[2-9] for multiple pipe onUpdate
+
 ## 1.0.14
 ### Added
 * ff.crypto.aesECBEncrypt for encryption using aes-ecb

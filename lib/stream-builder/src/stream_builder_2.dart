@@ -24,7 +24,7 @@ class StreamInitialDataTuple2<T1, T2> {
 
 class SnapshotTuple2<T1, T2> {
   final AsyncSnapshot<T1> snapshot1;
-  final AsyncSnapshot<T1> snapshot2;
+  final AsyncSnapshot<T2> snapshot2;
 
   SnapshotTuple2(this.snapshot1, this.snapshot2);
 }
