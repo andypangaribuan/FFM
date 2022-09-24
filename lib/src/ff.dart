@@ -26,6 +26,7 @@ import 'package:pointycastle/padded_block_cipher/padded_block_cipher_impl.dart';
 import 'package:pointycastle/paddings/pkcs7.dart';
 
 part 'func/crypto.dart';
+part 'func/func.dart';
 
 final ff = _FF._();
 
@@ -67,95 +68,6 @@ OSPlatform get _osPlatform {
   }
   return __osPlatform;
 }
-
-
-//region Func
-class _IsInstanceTypeOf<T> {}
-
-class _Func {
-  _Func._();
-
-  static const _chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  final _rnd = Random();
-
-  String randomChar(int length) {
-    return String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-  }
-
-  bool isTypeOf<ThisType, OfType>() => _IsInstanceTypeOf<ThisType>() is _IsInstanceTypeOf<OfType>;
-
-  bool isGenericTypeNullable<T>() => null is T;
-
-  Future<T> pageOpen<T>(BuildContext context, Widget currentPage, page,
-      {FPageTransitionType? transitionType,
-      bool disableAnimation = false,
-      void Function(FPageTransitionHolder holder)? getTransitionHolder}) async {
-    var isIOS = _osPlatform == OSPlatform.ios;
-    final type = transitionType ?? FPageTransitionType.rightToLeft;
-    dynamic response;
-    if (disableAnimation && transitionType == null) {
-      response = await Navigator.push(context, MaterialPageRoute(builder: (context) => page));
-    } else {
-      final pageTransition = FPageTransition(type: type, childCurrent: currentPage, child: page, isIos: isIOS);
-      getTransitionHolder?.call(pageTransition.holder);
-      response = await Navigator.push(context, pageTransition);
-    }
-    return response as T;
-  }
-
-  void pageBack(BuildContext context, {Object? result}) {
-    Navigator.pop(context, result);
-  }
-
-  void pageOpenAndRemovePrevious(BuildContext context, dynamic page) {
-    Widget widget = Container();
-    if (page is Widget) {
-      widget = page;
-    } else if (page is FPage) {
-      widget = page.getWidget();
-    }
-
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => widget), ModalRoute.withName(''));
-  }
-
-  Future<T> waitNotNull<T>(T? Function() check, {int millis = 100}) async {
-    T? data = check.call();
-    while (data == null) {
-      await Future.delayed(Duration(milliseconds: millis));
-      data = check.call();
-    }
-
-    return data;
-  }
-
-  /// pipe must have withErrPipe
-  void subscribeValidationLapse<T>(
-      {required List<FPipe<T>> pipes,
-      required String? Function(T val) validation,
-      bool notifyWhenValidated = false,
-      Duration lapse = const Duration(milliseconds: 2500)}) {
-    for (var pipe in pipes) {
-      final timer = FTimer(lapse, () {
-        final err = validation(pipe.value);
-        if (err != null && err.isNotEmpty) {
-          pipe.errValue
-            ..setError(err)
-            ..update();
-        } else if (notifyWhenValidated) {
-          pipe.errValue.update();
-        }
-      });
-
-      pipe.subscribe(listener: (val) {
-        if (pipe.errValue.isError) {
-          pipe.errUpdate(pipe.errValue..isError = false);
-        }
-        timer.resetAndStart();
-      });
-    }
-  }
-}
-//endregion
 
 //region LOGGER
 class _Logger {

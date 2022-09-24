@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 1.0.16
+### Added
+* add ff.func.subscribe[1-9] for multiple subscribe with lapse duration.
+
 ## 1.0.15
 ### Added
 * add pipe.onUpdate[2-9] for multiple pipe onUpdate
