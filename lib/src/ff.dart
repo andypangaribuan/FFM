@@ -12,11 +12,9 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:io' show Platform;
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:ffm/ffm.dart';
 import 'package:flutter/foundation.dart';
 
-// import 'package:ffm/src/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pointycastle/api.dart';

@@ -1,6 +1,6 @@
 name: ffm
 description: Flutter For Mobile, all in one solution to build your flutter app from scratch.
-version: 1.0.16
+version: 1.0.20
 homepage: https://github.com/andypangaribuan/FFM
 
 
@@ -21,4 +21,3 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^2.0.1
-

@@ -1,6 +1,22 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 1.0.20
+### Add
+* FViewLogic
+
+## 1.0.19
+### Changed
+* callbackWithoutLapse to listenerWithoutLapse for all ff.func.subscribe[1-9]
+
+## 1.0.18
+### Add
+* callbackWithoutLapse for all ff.func.subscribe[1-9]
+
+## 1.0.17
+### Fixed
+* implement lapse for all ff.func.subscribe[1-9]
+
 ## 1.0.16
 ### Added
 * add ff.func.subscribe[1-9] for multiple subscribe with lapse duration.

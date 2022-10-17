@@ -93,12 +93,15 @@ class _Func {
     }
   }
 
-  void subscribe1<T1, T2>({
+  void subscribe1<T1>({
     required FPipe<T1> pipe1,
     required void Function(T1 val1) listener,
     Duration? lapse,
+    VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      lapse: lapse,
+      callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1],
       callback: () {
         listener(pipe1.value);
@@ -111,8 +114,11 @@ class _Func {
     required FPipe<T2> pipe2,
     required void Function(T1 val1, T2 val2) listener,
     Duration? lapse,
+    VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      lapse: lapse,
+      callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2],
       callback: () {
         listener(pipe1.value, pipe2.value);
@@ -126,8 +132,11 @@ class _Func {
     required FPipe<T3> pipe3,
     required void Function(T1 val1, T2 val2, T3 val3) listener,
     Duration? lapse,
+    VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      lapse: lapse,
+      callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3],
       callback: () {
         listener(pipe1.value, pipe2.value, pipe3.value);
@@ -142,8 +151,11 @@ class _Func {
     required FPipe<T4> pipe4,
     required void Function(T1 val1, T2 val2, T3 val3, T4 val4) listener,
     Duration? lapse,
+    VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      lapse: lapse,
+      callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4],
       callback: () {
         listener(pipe1.value, pipe2.value, pipe3.value, pipe4.value);
@@ -159,8 +171,11 @@ class _Func {
     required FPipe<T5> pipe5,
     required void Function(T1 val1, T2 val2, T3 val3, T4 val4, T5 val5) listener,
     Duration? lapse,
+    VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      lapse: lapse,
+      callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5],
       callback: () {
         listener(pipe1.value, pipe2.value, pipe3.value, pipe4.value, pipe5.value);
@@ -177,8 +192,11 @@ class _Func {
     required FPipe<T6> pipe6,
     required void Function(T1 val1, T2 val2, T3 val3, T4 val4, T5 val5, T6 val6) listener,
     Duration? lapse,
+    VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      lapse: lapse,
+      callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5, pipe6],
       callback: () {
         listener(pipe1.value, pipe2.value, pipe3.value, pipe4.value, pipe5.value, pipe6.value);
@@ -196,8 +214,11 @@ class _Func {
     required FPipe<T7> pipe7,
     required void Function(T1 val1, T2 val2, T3 val3, T4 val4, T5 val5, T6 val6, T7 val7) listener,
     Duration? lapse,
+    VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      lapse: lapse,
+      callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5, pipe6, pipe7],
       callback: () {
         listener(pipe1.value, pipe2.value, pipe3.value, pipe4.value, pipe5.value, pipe6.value, pipe7.value);
@@ -216,8 +237,11 @@ class _Func {
     required FPipe<T8> pipe8,
     required void Function(T1 val1, T2 val2, T3 val3, T4 val4, T5 val5, T6 val6, T7 val7, T8 val8) listener,
     Duration? lapse,
+    VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      lapse: lapse,
+      callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5, pipe6, pipe7, pipe8],
       callback: () {
         listener(
@@ -238,8 +262,11 @@ class _Func {
     required FPipe<T9> pipe9,
     required void Function(T1 val1, T2 val2, T3 val3, T4 val4, T5 val5, T6 val6, T7 val7, T8 val8, T9 val9) listener,
     Duration? lapse,
+    VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      lapse: lapse,
+      callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5, pipe6, pipe7, pipe8, pipe9],
       callback: () {
         listener(pipe1.value, pipe2.value, pipe3.value, pipe4.value, pipe5.value, pipe6.value, pipe7.value, pipe8.value,
@@ -252,8 +279,10 @@ class _Func {
 class _FuncPipeSubscribe {
   FTimer? _timer;
   VoidCallback? _callback;
+  VoidCallback? _callbackWithoutLapse;
 
-  _FuncPipeSubscribe({required VoidCallback callback, Duration? lapse}) {
+  _FuncPipeSubscribe({required VoidCallback callback, Duration? lapse, VoidCallback? callbackWithoutLapse}) {
+    _callbackWithoutLapse = callbackWithoutLapse;
     if (lapse != null) {
       _timer = FTimer(lapse, callback);
     } else {
@@ -261,13 +290,14 @@ class _FuncPipeSubscribe {
     }
   }
 
-  static void _pipeSubs({required List<FPipe> pipes, required VoidCallback callback, Duration? lapse}) {
-    _FuncPipeSubscribe(lapse: lapse, callback: callback).subscribe(pipes);
+  static void _pipeSubs({required List<FPipe> pipes, required VoidCallback callback, Duration? lapse, VoidCallback? callbackWithoutLapse}) {
+    _FuncPipeSubscribe(lapse: lapse, callback: callback, callbackWithoutLapse: callbackWithoutLapse).subscribe(pipes);
   }
 
   void trigger() {
     if (_timer != null) {
       _timer!.resetAndStart();
+      _callbackWithoutLapse?.call();
     } else {
       _callback?.call();
     }

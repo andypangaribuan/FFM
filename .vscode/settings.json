@@ -22,16 +22,16 @@
     "HINT"
   ],
   "errorLens.messageBackgroundMode": "line",
-  "dart.lineLength": 120,
+  "dart.lineLength": 180,
   "[dart]": {
-    "editor.rulers": [120],
+    "editor.rulers": [180],
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
     "editor.suggest.insertMode": "replace",
     "editor.defaultFormatter": "Dart-Code.dart-code"
   },
-  "editor.rulers": [120],
+  "editor.rulers": [180],
   "fileHeaderComment.parameter": {
     "*": {
       "author": "Andy Pangaribuan",
