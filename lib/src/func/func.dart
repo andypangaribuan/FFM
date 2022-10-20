@@ -25,9 +25,7 @@ class _Func {
   bool isGenericTypeNullable<T>() => null is T;
 
   Future<T> pageOpen<T>(BuildContext context, Widget currentPage, page,
-      {FPageTransitionType? transitionType,
-      bool disableAnimation = false,
-      void Function(FPageTransitionHolder holder)? getTransitionHolder}) async {
+      {FPageTransitionType? transitionType, bool disableAnimation = false, void Function(FPageTransitionHolder holder)? getTransitionHolder}) async {
     var isIOS = _osPlatform == OSPlatform.ios;
     final type = transitionType ?? FPageTransitionType.rightToLeft;
     dynamic response;
@@ -68,10 +66,7 @@ class _Func {
 
   /// pipe must have withErrPipe
   void subscribeValidationLapse<T>(
-      {required List<FPipe<T>> pipes,
-      required String? Function(T val) validation,
-      bool notifyWhenValidated = false,
-      Duration lapse = const Duration(milliseconds: 2500)}) {
+      {required List<FPipe<T>> pipes, required String? Function(T val) validation, bool notifyWhenValidated = false, Duration lapse = const Duration(milliseconds: 2500)}) {
     for (var pipe in pipes) {
       final timer = FTimer(lapse, () {
         final err = validation(pipe.value);
@@ -94,12 +89,14 @@ class _Func {
   }
 
   void subscribe1<T1>({
+    required FDisposer disposer,
     required FPipe<T1> pipe1,
     required void Function(T1 val1) listener,
     Duration? lapse,
     VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      disposer: disposer,
       lapse: lapse,
       callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1],
@@ -110,6 +107,7 @@ class _Func {
   }
 
   void subscribe2<T1, T2>({
+    required FDisposer disposer,
     required FPipe<T1> pipe1,
     required FPipe<T2> pipe2,
     required void Function(T1 val1, T2 val2) listener,
@@ -117,6 +115,7 @@ class _Func {
     VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      disposer: disposer,
       lapse: lapse,
       callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2],
@@ -127,6 +126,7 @@ class _Func {
   }
 
   void subscribe3<T1, T2, T3>({
+    required FDisposer disposer,
     required FPipe<T1> pipe1,
     required FPipe<T2> pipe2,
     required FPipe<T3> pipe3,
@@ -135,6 +135,7 @@ class _Func {
     VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      disposer: disposer,
       lapse: lapse,
       callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3],
@@ -145,6 +146,7 @@ class _Func {
   }
 
   void subscribe4<T1, T2, T3, T4>({
+    required FDisposer disposer,
     required FPipe<T1> pipe1,
     required FPipe<T2> pipe2,
     required FPipe<T3> pipe3,
@@ -154,6 +156,7 @@ class _Func {
     VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      disposer: disposer,
       lapse: lapse,
       callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4],
@@ -164,6 +167,7 @@ class _Func {
   }
 
   void subscribe5<T1, T2, T3, T4, T5>({
+    required FDisposer disposer,
     required FPipe<T1> pipe1,
     required FPipe<T2> pipe2,
     required FPipe<T3> pipe3,
@@ -174,6 +178,7 @@ class _Func {
     VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      disposer: disposer,
       lapse: lapse,
       callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5],
@@ -184,6 +189,7 @@ class _Func {
   }
 
   void subscribe6<T1, T2, T3, T4, T5, T6>({
+    required FDisposer disposer,
     required FPipe<T1> pipe1,
     required FPipe<T2> pipe2,
     required FPipe<T3> pipe3,
@@ -195,6 +201,7 @@ class _Func {
     VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      disposer: disposer,
       lapse: lapse,
       callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5, pipe6],
@@ -205,6 +212,7 @@ class _Func {
   }
 
   void subscribe7<T1, T2, T3, T4, T5, T6, T7>({
+    required FDisposer disposer,
     required FPipe<T1> pipe1,
     required FPipe<T2> pipe2,
     required FPipe<T3> pipe3,
@@ -217,6 +225,7 @@ class _Func {
     VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      disposer: disposer,
       lapse: lapse,
       callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5, pipe6, pipe7],
@@ -227,6 +236,7 @@ class _Func {
   }
 
   void subscribe8<T1, T2, T3, T4, T5, T6, T7, T8>({
+    required FDisposer disposer,
     required FPipe<T1> pipe1,
     required FPipe<T2> pipe2,
     required FPipe<T3> pipe3,
@@ -240,17 +250,18 @@ class _Func {
     VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      disposer: disposer,
       lapse: lapse,
       callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5, pipe6, pipe7, pipe8],
       callback: () {
-        listener(
-            pipe1.value, pipe2.value, pipe3.value, pipe4.value, pipe5.value, pipe6.value, pipe7.value, pipe8.value);
+        listener(pipe1.value, pipe2.value, pipe3.value, pipe4.value, pipe5.value, pipe6.value, pipe7.value, pipe8.value);
       },
     );
   }
 
   void subscribe9<T1, T2, T3, T4, T5, T6, T7, T8, T9>({
+    required FDisposer disposer,
     required FPipe<T1> pipe1,
     required FPipe<T2> pipe2,
     required FPipe<T3> pipe3,
@@ -265,12 +276,12 @@ class _Func {
     VoidCallback? listenerWithoutLapse,
   }) {
     _FuncPipeSubscribe._pipeSubs(
+      disposer: disposer,
       lapse: lapse,
       callbackWithoutLapse: listenerWithoutLapse,
       pipes: [pipe1, pipe2, pipe3, pipe4, pipe5, pipe6, pipe7, pipe8, pipe9],
       callback: () {
-        listener(pipe1.value, pipe2.value, pipe3.value, pipe4.value, pipe5.value, pipe6.value, pipe7.value, pipe8.value,
-            pipe9.value);
+        listener(pipe1.value, pipe2.value, pipe3.value, pipe4.value, pipe5.value, pipe6.value, pipe7.value, pipe8.value, pipe9.value);
       },
     );
   }
@@ -278,10 +289,15 @@ class _Func {
 
 class _FuncPipeSubscribe {
   FTimer? _timer;
-  VoidCallback? _callback;
+  late VoidCallback _callback;
   VoidCallback? _callbackWithoutLapse;
 
-  _FuncPipeSubscribe({required VoidCallback callback, Duration? lapse, VoidCallback? callbackWithoutLapse}) {
+  _FuncPipeSubscribe({
+    required FDisposer disposer,
+    required VoidCallback callback,
+    Duration? lapse,
+    VoidCallback? callbackWithoutLapse,
+  }) {
     _callbackWithoutLapse = callbackWithoutLapse;
     if (lapse != null) {
       _timer = FTimer(lapse, callback);
@@ -290,8 +306,19 @@ class _FuncPipeSubscribe {
     }
   }
 
-  static void _pipeSubs({required List<FPipe> pipes, required VoidCallback callback, Duration? lapse, VoidCallback? callbackWithoutLapse}) {
-    _FuncPipeSubscribe(lapse: lapse, callback: callback, callbackWithoutLapse: callbackWithoutLapse).subscribe(pipes);
+  static void _pipeSubs({
+    required FDisposer disposer,
+    required List<FPipe> pipes,
+    required VoidCallback callback,
+    Duration? lapse,
+    VoidCallback? callbackWithoutLapse,
+  }) {
+    _FuncPipeSubscribe(
+      disposer: disposer,
+      lapse: lapse,
+      callback: callback,
+      callbackWithoutLapse: callbackWithoutLapse,
+    ).subscribe(disposer, pipes);
   }
 
   void trigger() {
@@ -299,13 +326,16 @@ class _FuncPipeSubscribe {
       _timer!.resetAndStart();
       _callbackWithoutLapse?.call();
     } else {
-      _callback?.call();
+      _callback.call();
     }
   }
 
-  void subscribe(List<FPipe> pipes) {
+  void subscribe(FDisposer disposer, List<FPipe> pipes) {
     for (var pipe in pipes) {
-      pipe.subscribe(listener: (_) => trigger());
+      pipe.subscribe(
+        listener: (_) => trigger(),
+        disposer: disposer,
+      );
     }
   }
 }

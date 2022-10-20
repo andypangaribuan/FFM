@@ -57,11 +57,7 @@ class FPipe<T> {
   TextEditingController? textEditingController;
   StreamSubscription? _eventSubscription;
 
-  FPipe(
-      {required T initValue,
-      required FDisposer disposer,
-      bool withTextEditingController = false,
-      bool withErrPipe = false}) {
+  FPipe({required T initValue, required FDisposer disposer, bool withTextEditingController = false, bool withErrPipe = false}) {
     disposer.register(dispose);
 
     _lastValue = initValue;

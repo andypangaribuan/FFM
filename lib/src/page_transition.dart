@@ -74,7 +74,7 @@ class FPageTransition<T> extends PageRouteBuilder<T> {
     this.isIos = false,
     this.matchingBuilder = const CupertinoPageTransitionsBuilder(),
     RouteSettings? settings,
-  })  : assert(inheritTheme ? ctx != null : true, "'ctx' cannot be null when 'inheritTheme' is true, set ctx: context"),
+  })  : assert(inheritTheme ? ctx != null : true, "'ctx' adalah cannot be null when 'inheritTheme' is true, set ctx: context"),
         super(
           pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
             return inheritTheme ? InheritedTheme.captureAll(ctx!, child) : child;

@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 1.0.21
+### Add
+* Disposer to ff.func.subscribe for auto dispose event from global pipe.
+
 ## 1.0.20
 ### Add
 * FViewLogic
