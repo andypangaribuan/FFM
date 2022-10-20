@@ -65,8 +65,13 @@ class _Func {
   }
 
   /// pipe must have withErrPipe
-  void subscribeValidationLapse<T>(
-      {required List<FPipe<T>> pipes, required String? Function(T val) validation, bool notifyWhenValidated = false, Duration lapse = const Duration(milliseconds: 2500)}) {
+  void subscribeValidationLapse<T>({
+    required FDisposer disposer,
+    required List<FPipe<T>> pipes,
+    required String? Function(T val) validation,
+    bool notifyWhenValidated = false,
+    Duration lapse = const Duration(milliseconds: 2500),
+  }) {
     for (var pipe in pipes) {
       final timer = FTimer(lapse, () {
         final err = validation(pipe.value);
@@ -79,12 +84,15 @@ class _Func {
         }
       });
 
-      pipe.subscribe(listener: (val) {
-        if (pipe.errValue.isError) {
-          pipe.errUpdate(pipe.errValue..isError = false);
-        }
-        timer.resetAndStart();
-      });
+      pipe.subscribe(
+        disposer: disposer,
+        listener: (val) {
+          if (pipe.errValue.isError) {
+            pipe.errUpdate(pipe.errValue..isError = false);
+          }
+          timer.resetAndStart();
+        },
+      );
     }
   }
 
